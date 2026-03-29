@@ -2,12 +2,13 @@
 
 AI that tries to hack your AI agent.
 
-`agent-redteam` automatically red-teams AI agents for:
+## Features
 
-- Prompt injection
-- Secret extraction
-- Tool abuse indicators
-- Token bomb / cost abuse indicators
+- Red-team a live AI agent HTTP endpoint
+- Clone and scan a GitHub repo
+- Detect prompt injection surfaces
+- Detect hardcoded secrets
+- Generate markdown reports
 
 ## Install
 
