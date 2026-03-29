@@ -4,7 +4,12 @@ from rich.console import Console
 from agent_redteam.attack_generator import load_attacks
 from agent_redteam.attack_runner import run_attack
 from agent_redteam.models import Report
-from agent_redteam.report_generator import format_report
+from agent_redteam.report_generator import (
+    format_report,
+    format_repo_report,
+    write_repo_markdown,
+)
+from agent_redteam.repo_scanner import scan_repo
 from agent_redteam.response_analyzer import analyze_response
 from agent_redteam.risk_scoring import calculate_score, overall_risk
 
@@ -35,6 +40,34 @@ def scan(target_url: str) -> None:
             results.append(result)
         except Exception as exc:
             console.print(f"[red]Error[/red] {attack.category}: {exc}")
+
+    score = calculate_score(results)
+    report = Report(
+        target=target_url,
+        results=results,
+        score=score,
+        overall_risk=overall_risk(score),
+    )
+
+    console.print()
+    console.print(format_report(report))
+
+
+@main.command()
+@click.argument("repo_url")
+@click.option("--markdown", "markdown_path", default=None, help="Write markdown report to file")
+def scan_repo_cmd(repo_url: str, markdown_path: str | None) -> None:
+    """Clone and statically scan a repository for agent security risks."""
+    console.print(f"[bold cyan]Cloning + scanning repo:[/bold cyan] {repo_url}")
+
+    report = scan_repo(repo_url)
+
+    console.print()
+    console.print(format_repo_report(report))
+
+    if markdown_path:
+        write_repo_markdown(report, markdown_path)
+        console.print(f"\n[green]Markdown report written to:[/green] {markdown_path}")            console.print(f"[red]Error[/red] {attack.category}: {exc}")
 
     score = calculate_score(results)
     report = Report(
