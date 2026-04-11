@@ -11,6 +11,8 @@ SECRET_PATTERNS = [
     (r"api[_-]?key\s*[:=]\s*['\"][^'\"]+['\"]", "Hardcoded API key assignment"),
     (r"token\s*[:=]\s*['\"][^'\"]+['\"]", "Hardcoded token assignment"),
     (r"secret\s*[:=]\s*['\"][^'\"]+['\"]", "Hardcoded secret assignment"),
+    (r"aws_access_key_id\s*[:=]\s*['\"][^'\"]+['\"]", "Possible AWS Access Key"),
+    (r"ghp_[a-zA-Z0-9]{36}", "Possible GitHub Personal Access Token"),
 ]
 
 TEXT_EXTENSIONS = {
