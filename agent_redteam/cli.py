@@ -1,3 +1,5 @@
+from typing import Optional
+
 import click
 from rich.console import Console
 
@@ -56,7 +58,7 @@ def scan(target_url: str) -> None:
 @main.command()
 @click.argument("repo_url")
 @click.option("--markdown", "markdown_path", default=None, help="Write markdown report to file")
-def scan_repo_cmd(repo_url: str, markdown_path: str | None) -> None:
+def scan_repo_cmd(repo_url: str, markdown_path: Optional[str]) -> None:
     """Clone and statically scan a repository for agent security risks."""
     console.print(f"[bold cyan]Cloning + scanning repo:[/bold cyan] {repo_url}")
 
@@ -67,15 +69,4 @@ def scan_repo_cmd(repo_url: str, markdown_path: str | None) -> None:
 
     if markdown_path:
         write_repo_markdown(report, markdown_path)
-        console.print(f"\n[green]Markdown report written to:[/green] {markdown_path}")            console.print(f"[red]Error[/red] {attack.category}: {exc}")
-
-    score = calculate_score(results)
-    report = Report(
-        target=target_url,
-        results=results,
-        score=score,
-        overall_risk=overall_risk(score),
-    )
-
-    console.print()
-    console.print(format_report(report))
+        console.print(f"\n[green]Markdown report written to:[/green] {markdown_path}")
