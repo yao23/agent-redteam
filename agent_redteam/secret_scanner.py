@@ -13,6 +13,9 @@ SECRET_PATTERNS = [
     (r"secret\s*[:=]\s*['\"][^'\"]+['\"]", "Hardcoded secret assignment"),
     (r"aws_access_key_id\s*[:=]\s*['\"][^'\"]+['\"]", "Possible AWS Access Key"),
     (r"ghp_[a-zA-Z0-9]{36}", "Possible GitHub Personal Access Token"),
+    (r"AIza[0-9A-Za-z-_]{35}", "Possible Google API Key"),
+    (r"xoxb-[0-9]{11}-[0-9]{11}-[0-9a-zA-Z]{24}", "Possible Slack Bot Token"),
+    (r"-----BEGIN RSA PRIVATE KEY-----", "RSA Private Key found"),
 ]
 
 TEXT_EXTENSIONS = {
